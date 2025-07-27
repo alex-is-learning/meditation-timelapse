@@ -201,6 +201,11 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Ignore image output files
+*.jpg
+*.jpeg
+*.gif
+
 # Marimo
 marimo/_static/
 marimo/_lsp/
