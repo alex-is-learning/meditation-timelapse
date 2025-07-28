@@ -3,18 +3,18 @@ import time
 import os
 
 # --- Test Configuration ---
-NUM_PHOTOS = 10         # Total number of photos to take
+NUM_PHOTOS = 2         # Total number of photos to take
 INTERVAL = 1            # Interval in seconds
 OUTPUT_DIR = "test_images"
 CAMERA_INDEX = 0
 
 # --- Text Overlay Settings ---
 FONT = cv2.FONT_HERSHEY_SIMPLEX
-FONT_SCALE = 0.8
+FONT_SCALE = 4
 FONT_COLOR = (255, 255, 255) # White color (B, G, R)
-FONT_THICKNESS = 2
-ELAPSED_TEXT_POSITION = (20, 40)
-TIMESTAMP_TEXT_POSITION = (20, 70)
+FONT_THICKNESS = 4
+ELAPSED_TEXT_POSITION = (20, 120)
+TIMESTAMP_TEXT_POSITION = (20, 240)
 
 # --- Setup ---
 if not os.path.exists(OUTPUT_DIR):
