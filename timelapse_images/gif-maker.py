@@ -1,22 +1,18 @@
 from PIL import Image
 import glob
 import time
+import os
 
 # --- Configuration ---
-# Duration of each frame in the GIF, in milliseconds.
-# 1000ms = 1 second. 200ms is a good speed for a 10-frame test.
-FRAME_DURATION_MS = 200 
-OUTPUT_FILENAME = "output_timelapse.gif"
+FRAME_DURATION_MS = 200
+# Add a new configuration section for resizing
+RESIZE_WIDTH = 960 # Set the desired width in pixels
 
 # --- Main Script ---
-# Generate a timestamp for the output filename
 timestamp = time.strftime("%Y%m%d-%H%M%S")
 output_filename = f"output_timelapse_{timestamp}.gif"
 
-print("Searching for .jpg files in this directory...")
-
-# Find all files ending with .jpg and sort them.
-# The sorting works because your filenames have timestamps.
+print(f"Searching for .jpg files in this directory...")
 filenames = sorted(glob.glob('*.jpg'))
 
 if not filenames:
@@ -24,21 +20,29 @@ if not filenames:
 else:
     print(f"Found {len(filenames)} images. Creating GIF...")
     
-    # Open all images and store them in a list
-    images = [Image.open(f) for f in filenames]
+    images = []
+    print(f"Resizing images to a width of {RESIZE_WIDTH}px...")
+    for f in filenames:
+        img = Image.open(f)
+        # Calculate new height to maintain the original aspect ratio
+        aspect_ratio = float(img.size[1]) / float(img.size[0])
+        new_height = int(aspect_ratio * RESIZE_WIDTH)
+        # Resize the image using a high-quality filter
+        img_resized = img.resize((RESIZE_WIDTH, new_height), Image.Resampling.LANCZOS)
+        images.append(img_resized)
     
-    # The first image is the base
     first_image = images[0]
     
-    # Save the first image as a GIF, and append the rest
+    print(f"Saving GIF as {output_filename}...")
     first_image.save(
-        OUTPUT_FILENAME,
+        output_filename,
         save_all=True,
-        append_images=images[1:], # Append all images after the first one
-        optimize=False,
+        append_images=images[1:],
+        optimize=True,  # <-- Set to True for smaller file size
         duration=FRAME_DURATION_MS,
-        loop=0 # 0 means the GIF will loop indefinitely
+        loop=0
     )
     
-    print(f"✨ Success! GIF created: {OUTPUT_FILENAME}")
-
+    # Get final file size for display
+    file_size_mb = os.path.getsize(output_filename) / (1024 * 1024)
+    print(f"✨ Success! GIF created: {output_filename} ({file_size_mb:.2f} MB)")
