@@ -1,3 +1,5 @@
+- See e.g.[here](https://www.alexislearning.me/learning-to-think/%E2%AD%90%EF%B8%8F-Open-Questions/4.-How-to-meditate-regularly/Sit-reports/Sit-002-report) for an example output
+
 # meditation-timelapse
 
 - Accountability for meditation!
